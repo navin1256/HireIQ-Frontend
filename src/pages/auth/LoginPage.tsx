@@ -109,9 +109,9 @@ export default function LoginPage() {
                   LinkedIn-ready certificates
                 </li>
               </ul>
-              <button className="w-full py-4 rounded-xl text-[14px] font-semibold text-white bg-[#6366F1] hover:bg-[#4F46E5] transition-all duration-200 shadow-lg shadow-indigo-100 active:scale-[0.98]" style={{ fontFamily: 'Inter' }}>
+              <Link to="/candidate/login" className="w-full block text-center py-4 rounded-xl text-[14px] font-semibold text-white bg-[#6366F1] hover:bg-[#4F46E5] transition-all duration-200 shadow-lg shadow-indigo-100 active:scale-[0.98]" style={{ fontFamily: 'Inter' }}>
                 Login as Candidate
-              </button>
+              </Link>
             </div>
 
             {/* Experts Portal */}
@@ -142,9 +142,9 @@ export default function LoginPage() {
                   Top companies
                 </li>
               </ul>
-              <button className="w-full py-4 rounded-xl text-[14px] font-semibold text-[#F59E0B] border-2 border-[#F59E0B] hover:bg-[#FFFBEB] transition-all duration-200 active:scale-[0.98]" style={{ fontFamily: 'Inter' }}>
+              <Link to="/expert/login" className="w-full block text-center py-4 rounded-xl text-[14px] font-semibold text-[#F59E0B] border-2 border-[#F59E0B] hover:bg-[#FFFBEB] transition-all duration-200 active:scale-[0.98]" style={{ fontFamily: 'Inter' }}>
                 Login as Expert
-              </button>
+              </Link>
             </div>
           </div>
 
