@@ -35,13 +35,9 @@ import CandidateCertificationExamCompletePage from './pages/candidate/CandidateC
 import CandidateMyCertificatesPage from './pages/candidate/CandidateMyCertificatesPage';
 import CandidateSettingsPage from './pages/candidate/CandidateSettingsPage';
 import OnboardingPage from './pages/auth/OnboardingPage';
-<<<<<<< HEAD
-import VerifyEmailPage from './pages/auth/VerifyEmailPage';
-=======
 import OnboardingConnectATSPage from './pages/auth/OnboardingConnectATSPage';
 import OnboardingCreateJobPage from './pages/auth/OnboardingCreateJobPage';
 import OnboardingInviteTeamPage from './pages/auth/OnboardingInviteTeamPage';
->>>>>>> 16d3be72ddc1432d79a91c1edef5b0700f908b57
 import CompanyDashboardPage from './pages/dashboard/CompanyDashboardPage';
 import CompanyJobsPage from './pages/dashboard/CompanyJobsPage';
 import CreateJobPage from './pages/dashboard/CreateJobPage';
@@ -104,15 +100,11 @@ export default function App() {
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/verify-email" element={<VerifyEmailPage />} />
       <Route path="/onboarding" element={<OnboardingPage />} />
-<<<<<<< HEAD
-      <Route path="/auth/verify" element={<VerifyEmailPage />} />
-=======
       <Route path="/onboarding/ats" element={<OnboardingConnectATSPage />} />
       <Route path="/onboarding/job" element={<OnboardingCreateJobPage />} />
       <Route path="/onboarding/invite" element={<OnboardingInviteTeamPage />} />
 
       {/* ── SECTION 3: Company Dashboard ── */}
->>>>>>> 16d3be72ddc1432d79a91c1edef5b0700f908b57
       <Route path="/dashboard" element={<CompanyDashboardPage />} />
       <Route path="/jobs" element={<CompanyJobsPage />} />
       <Route path="/jobs/new" element={<CreateJobPage />} />
