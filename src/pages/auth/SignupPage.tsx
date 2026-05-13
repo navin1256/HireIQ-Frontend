@@ -1,8 +1,67 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthService } from '../../services/auth.service';
 
 export default function SignupPage() {
+  const [fullName, setFullName] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [companySize, setCompanySize] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+
+    try {
+      await AuthService.signup({
+        fullName,
+        companyName,
+        email,
+        password,
+        companySize
+      });
+      setShowPopup(true);
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Failed to sign up. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    navigate('/login/company'); // Or wherever appropriate
+  };
+
   return (
-    <div className="bg-[#0D1A14] text-[#dce3f0] font-body-md overflow-x-hidden">
+    <div className="bg-[#0D1A14] text-[#dce3f0] font-body-md overflow-x-hidden" style={{ width: '100vw' }}>
+      {/* Verification Popup */}
+      {showPopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" style={{ width: '100vw' }}>
+          <div className="bg-[#0A0F0C] border border-[#22D97A]/30 rounded-2xl p-8 text-center shadow-2xl shadow-[#22D97A]/10" style={{ width: '100%', maxWidth: '448px' }}>
+            <div className="w-16 h-16 bg-[#22D97A]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+              <span className="material-symbols-outlined text-[#22D97A] text-3xl" style={{ fontVariationSettings: "'FILL' 0" }}>mail</span>
+            </div>
+            <h2 className="text-2xl font-bold text-[#dce3f0] mb-4" style={{ fontFamily: 'Plus Jakarta Sans' }}>Verify your email</h2>
+            <p className="text-[#c3c6d7] mb-8" style={{ fontFamily: 'Inter' }}>
+              We've sent a verification link to <span className="font-semibold text-white">{email}</span>. Please check your inbox and verify your email before logging in.
+            </p>
+            <button 
+              onClick={handleClosePopup}
+              className="w-full py-3 bg-[#22D97A] text-[#0A0F0C] font-semibold rounded-xl hover:brightness-110 transition-all"
+            >
+              Go to Login
+            </button>
+          </div>
+        </div>
+      )}
+
       <main className="min-h-screen flex flex-col md:flex-row relative">
         {/* Left Side: Signup Form (60%) */}
         <section className="w-full md:w-[60%] min-h-screen flex flex-col items-center justify-center px-[24px] py-[80px] relative z-10 bg-[#0D1A14]">
@@ -35,31 +94,36 @@ export default function SignupPage() {
             </div>
             
             {/* Form */}
-            <form className="space-y-[24px]" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-[24px]" onSubmit={handleSubmit}>
+              {error && (
+                <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm">
+                  {error}
+                </div>
+              )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
                 <div className="space-y-[8px]">
                   <label className="text-[12px] font-semibold tracking-[0.05em] text-[#c3c6d7] uppercase block" style={{ fontFamily: 'Inter' }}>FULL NAME</label>
-                  <input className="w-full bg-[#0A0F0C] border border-white/10 rounded-xl px-[16px] py-[4px] h-[48px] focus:ring-2 focus:ring-[#22D97A] focus:border-[#22D97A] outline-none transition-all placeholder:text-[#8d90a0]/50" placeholder="John Doe" type="text" />
+                  <input required value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full bg-[#0A0F0C] border border-white/10 rounded-xl px-[16px] py-[4px] h-[48px] focus:ring-2 focus:ring-[#22D97A] focus:border-[#22D97A] outline-none transition-all placeholder:text-[#8d90a0]/50" placeholder="John Doe" type="text" />
                 </div>
                 <div className="space-y-[8px]">
                   <label className="text-[12px] font-semibold tracking-[0.05em] text-[#c3c6d7] uppercase block" style={{ fontFamily: 'Inter' }}>COMPANY NAME</label>
-                  <input className="w-full bg-[#0A0F0C] border border-white/10 rounded-xl px-[16px] py-[4px] h-[48px] focus:ring-2 focus:ring-[#22D97A] focus:border-[#22D97A] outline-none transition-all placeholder:text-[#8d90a0]/50" placeholder="TechCorp" type="text" />
+                  <input required value={companyName} onChange={(e) => setCompanyName(e.target.value)} className="w-full bg-[#0A0F0C] border border-white/10 rounded-xl px-[16px] py-[4px] h-[48px] focus:ring-2 focus:ring-[#22D97A] focus:border-[#22D97A] outline-none transition-all placeholder:text-[#8d90a0]/50" placeholder="TechCorp" type="text" />
                 </div>
               </div>
               <div className="space-y-[8px]">
                 <label className="text-[12px] font-semibold tracking-[0.05em] text-[#c3c6d7] uppercase block" style={{ fontFamily: 'Inter' }}>WORK EMAIL</label>
-                <input className="w-full bg-[#0A0F0C] border border-white/10 rounded-xl px-[16px] py-[4px] h-[48px] focus:ring-2 focus:ring-[#22D97A] focus:border-[#22D97A] outline-none transition-all placeholder:text-[#8d90a0]/50" placeholder="john@techcorp.com" type="email" />
+                <input required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-[#0A0F0C] border border-white/10 rounded-xl px-[16px] py-[4px] h-[48px] focus:ring-2 focus:ring-[#22D97A] focus:border-[#22D97A] outline-none transition-all placeholder:text-[#8d90a0]/50" placeholder="john@techcorp.com" type="email" />
               </div>
               <div className="space-y-[8px] relative">
                 <label className="text-[12px] font-semibold tracking-[0.05em] text-[#c3c6d7] uppercase block" style={{ fontFamily: 'Inter' }}>PASSWORD</label>
-                <input className="w-full bg-[#0A0F0C] border border-white/10 rounded-xl px-[16px] py-[4px] h-[48px] focus:ring-2 focus:ring-[#22D97A] focus:border-[#22D97A] outline-none transition-all placeholder:text-[#8d90a0]/50" placeholder="••••••••" type="password" />
+                <input required value={password} onChange={(e) => setPassword(e.target.value)} className="w-full bg-[#0A0F0C] border border-white/10 rounded-xl px-[16px] py-[4px] h-[48px] focus:ring-2 focus:ring-[#22D97A] focus:border-[#22D97A] outline-none transition-all placeholder:text-[#8d90a0]/50" placeholder="••••••••" type="password" />
                 <button className="absolute right-[16px] top-[34px] text-[#c3c6d7] hover:text-[#dce3f0] transition-colors" type="button">
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 0" }}>visibility</span>
                 </button>
               </div>
               <div className="space-y-[8px]">
                 <label className="text-[12px] font-semibold tracking-[0.05em] text-[#c3c6d7] uppercase block" style={{ fontFamily: 'Inter' }}>COMPANY SIZE</label>
-                <select className="w-full bg-[#0A0F0C] border border-white/10 rounded-xl px-[16px] py-[4px] h-[48px] focus:ring-2 focus:ring-[#22D97A] focus:border-[#22D97A] outline-none transition-all appearance-none cursor-pointer">
+                <select value={companySize} onChange={(e) => setCompanySize(e.target.value)} className="w-full bg-[#0A0F0C] border border-white/10 rounded-xl px-[16px] py-[4px] h-[48px] focus:ring-2 focus:ring-[#22D97A] focus:border-[#22D97A] outline-none transition-all appearance-none cursor-pointer">
                   <option value="">Select size</option>
                   <option value="1-10">1-10 employees</option>
                   <option value="11-50">11-50 employees</option>
@@ -67,8 +131,8 @@ export default function SignupPage() {
                   <option value="201+">201+ employees</option>
                 </select>
               </div>
-              <button className="w-full h-[56px] bg-[#22D97A] text-[#0A0F0C] font-semibold text-[15px] rounded-full hover:brightness-110 hover:shadow-[0_0_20px_rgba(34,217,122,0.3)] transform transition-all duration-200 active:scale-[0.98] mt-[24px]" type="submit" style={{ fontFamily: 'Inter' }}>
-                Create Free Account
+              <button disabled={isLoading} className={`w-full h-[56px] ${isLoading ? 'bg-[#22D97A]/50' : 'bg-[#22D97A]'} text-[#0A0F0C] font-semibold text-[15px] rounded-full hover:brightness-110 hover:shadow-[0_0_20px_rgba(34,217,122,0.3)] transform transition-all duration-200 active:scale-[0.98] mt-[24px]`} type="submit" style={{ fontFamily: 'Inter' }}>
+                {isLoading ? 'Creating Account...' : 'Create Free Account'}
               </button>
             </form>
             

@@ -18,6 +18,7 @@ import CompanyLoginPage from './pages/auth/CompanyLoginPage';
 import SignupPage from './pages/auth/SignupPage';
 import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
 import OnboardingPage from './pages/auth/OnboardingPage';
+import VerifyEmailPage from './pages/auth/VerifyEmailPage';
 import CompanyDashboardPage from './pages/dashboard/CompanyDashboardPage';
 
 export default function App() {
@@ -42,6 +43,7 @@ export default function App() {
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/onboarding" element={<OnboardingPage />} />
+      <Route path="/auth/verify" element={<VerifyEmailPage />} />
       <Route path="/dashboard" element={<CompanyDashboardPage />} />
     </Routes>
   );

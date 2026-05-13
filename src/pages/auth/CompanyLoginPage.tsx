@@ -1,11 +1,41 @@
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthService } from '../../services/auth.service';
 
 export default function CompanyLoginPage() {
   const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = (e?: React.FormEvent) => {
+  const handleLogin = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    navigate('/dashboard');
+    setError('');
+    setIsLoading(true);
+
+    try {
+      const response = await AuthService.login({ email, password });
+      
+      if (response.token) {
+        localStorage.setItem('authToken', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        if (response.orgId) {
+          localStorage.setItem('orgId', response.orgId);
+        }
+        navigate('/dashboard');
+      } else {
+        setError('Login failed, no token received.');
+      }
+    } catch (err: any) {
+      if (err.response?.data?.requiresVerification) {
+        setError('Please verify your email address before logging in. Check your inbox for the verification link.');
+      } else {
+        setError(err.response?.data?.error || 'Invalid email or password.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -43,7 +73,6 @@ export default function CompanyLoginPage() {
             
             {/* Auth Providers */}
             <button 
-              onClick={() => handleLogin()}
               className="w-full h-12 flex items-center justify-center gap-[8px] bg-white rounded-[10px] transition-all duration-200 active:scale-95 mb-[24px] group"
               type="button"
             >
@@ -59,6 +88,11 @@ export default function CompanyLoginPage() {
             
             {/* Login Form */}
             <form className="space-y-[24px]" onSubmit={handleLogin}>
+              {error && (
+                <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm">
+                  {error}
+                </div>
+              )}
               {/* Email Field */}
               <div className="space-y-[8px]">
                 <label className="text-[12px] font-semibold text-[#8d90a0] uppercase tracking-wider" htmlFor="email" style={{ fontFamily: 'Inter' }}>Email</label>
@@ -70,6 +104,9 @@ export default function CompanyLoginPage() {
                     name="email" 
                     placeholder="name@company.com" 
                     type="email" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
                   />
                 </div>
               </div>
@@ -88,6 +125,9 @@ export default function CompanyLoginPage() {
                     name="password" 
                     placeholder="••••••••" 
                     type="password" 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
                   />
                   <button className="absolute right-3 top-1/2 -translate-y-1/2 text-[#434655] hover:text-white transition-colors" type="button">
                     <span className="material-symbols-outlined text-[20px]">visibility</span>
@@ -97,11 +137,12 @@ export default function CompanyLoginPage() {
               
               {/* CTA Button */}
               <button 
-                className="w-full h-[52px] bg-[#22D97A] text-[#0D1A14] rounded-[10px] text-[16px] font-extrabold transition-all duration-300 mt-[4px] hover:shadow-[0_4px_20px_rgba(34,217,122,0.3)] hover:-translate-y-0.5 active:translate-y-0" 
+                className={`w-full h-[52px] ${isLoading ? 'bg-[#22D97A]/50' : 'bg-[#22D97A]'} text-[#0D1A14] rounded-[10px] text-[16px] font-extrabold transition-all duration-300 mt-[4px] hover:shadow-[0_4px_20px_rgba(34,217,122,0.3)] hover:-translate-y-0.5 active:translate-y-0`}
                 type="submit" 
                 style={{ fontFamily: 'Inter' }}
+                disabled={isLoading}
               >
-                Login to Dashboard
+                {isLoading ? 'Logging in...' : 'Login to Dashboard'}
               </button>
             </form>
             
