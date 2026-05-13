@@ -1,6 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function OnboardingPage() {
+  const navigate = useNavigate();
+
   return (
     <div className="bg-[#0d141d] text-[#dce3f0] font-body-md min-h-screen relative overflow-x-hidden selection:bg-[#b4c5ff]/30">
       {/* Subtle Ambient Glow */}
@@ -51,7 +53,7 @@ export default function OnboardingPage() {
           
           {/* Actions */}
           <div>
-            <Link className="text-[#c3c6d7] hover:text-[#b4c5ff] transition-colors font-semibold text-[15px]" style={{ fontFamily: 'Inter' }} to="/">Skip setup</Link>
+            <Link className="text-[#c3c6d7] hover:text-[#b4c5ff] transition-colors font-semibold text-[15px]" style={{ fontFamily: 'Inter' }} to="/dashboard">Skip setup</Link>
           </div>
         </div>
       </header>
@@ -69,7 +71,10 @@ export default function OnboardingPage() {
             className="p-[24px] md:p-[80px] rounded-xl shadow-2xl"
             style={{ background: 'rgba(15, 23, 42, 0.7)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.08)' }}
           >
-            <form className="space-y-[48px]" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-[48px]" onSubmit={(e) => {
+              e.preventDefault();
+              navigate('/onboarding/ats');
+            }}>
               {/* Logo Upload */}
               <div className="space-y-[16px]">
                 <label className="text-[12px] font-semibold tracking-[0.05em] text-[#c3c6d7] block uppercase" style={{ fontFamily: 'Inter' }}>Company Logo</label>

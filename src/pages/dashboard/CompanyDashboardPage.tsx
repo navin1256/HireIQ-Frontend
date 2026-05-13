@@ -14,10 +14,10 @@ export default function CompanyDashboardPage() {
             <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 0" }}>dashboard</span>
             Dashboard
           </Link>
-          <a href="#" className="flex items-center gap-[8px] text-[#c3c6d7] hover:text-[#dce3f0] hover:bg-white/5 px-[16px] py-[8px] transition-all duration-200 active:opacity-80">
-            <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 0" }}>bar_chart</span>
-            Analytics
-          </a>
+          <Link to="/jobs" className="flex items-center gap-[8px] text-[#c3c6d7] hover:text-[#dce3f0] hover:bg-white/5 px-[16px] py-[8px] transition-all duration-200 active:opacity-80">
+            <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 0" }}>work</span>
+            Jobs
+          </Link>
           <a href="#" className="flex items-center gap-[8px] text-[#c3c6d7] hover:text-[#dce3f0] hover:bg-white/5 px-[16px] py-[8px] transition-all duration-200 active:opacity-80">
             <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 0" }}>groups</span>
             Candidates
@@ -26,10 +26,10 @@ export default function CompanyDashboardPage() {
             <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 0" }}>badge</span>
             Recruiters
           </a>
-          <a href="#" className="flex items-center gap-[8px] text-[#c3c6d7] hover:text-[#dce3f0] hover:bg-white/5 px-[16px] py-[8px] transition-all duration-200 active:opacity-80">
+          <Link to="/settings" className="flex items-center gap-[8px] text-[#c3c6d7] hover:text-[#dce3f0] hover:bg-white/5 px-[16px] py-[8px] transition-all duration-200 active:opacity-80">
             <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 0" }}>settings</span>
             Settings
-          </a>
+          </Link>
         </nav>
         <div className="mt-auto space-y-[24px]">
           <button className="w-full bg-[#2563eb] text-[#eeefff] font-semibold py-[16px] rounded-lg hover:brightness-110 transition-all" style={{ fontFamily: 'Inter' }}>
@@ -66,9 +66,9 @@ export default function CompanyDashboardPage() {
             <button className="material-symbols-outlined text-[#c3c6d7] hover:text-[#b4c5ff] transition-colors" style={{ fontVariationSettings: "'FILL' 0" }}>notifications</button>
             <button className="material-symbols-outlined text-[#c3c6d7] hover:text-[#b4c5ff] transition-colors" style={{ fontVariationSettings: "'FILL' 0" }}>settings</button>
           </div>
-          <button className="bg-[#b4c5ff] text-[#002a78] font-semibold px-[24px] py-[8px] rounded-full hover:scale-95 transition-all" style={{ fontFamily: 'Inter' }}>
+          <Link to="/jobs/new" className="bg-[#b4c5ff] text-[#002a78] font-semibold px-[24px] py-[8px] rounded-full hover:scale-95 transition-all" style={{ fontFamily: 'Inter' }}>
             Create New
-          </button>
+          </Link>
           <img 
             alt="User Avatar" 
             className="w-10 h-10 rounded-full border border-[#b4c5ff]/20" 
@@ -259,9 +259,9 @@ export default function CompanyDashboardPage() {
       </main>
       
       {/* FAB */}
-      <button className="fixed bottom-[48px] right-[48px] w-14 h-14 bg-[#b4c5ff] text-[#002a78] rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50">
+      <Link to="/jobs/new" className="fixed bottom-[48px] right-[48px] w-14 h-14 bg-[#b4c5ff] text-[#002a78] rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50">
         <span className="material-symbols-outlined text-[30px]">add</span>
-      </button>
+      </Link>
     </div>
   );
 }
